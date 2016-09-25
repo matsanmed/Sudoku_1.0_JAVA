@@ -2,7 +2,6 @@ package sudoku_ed_mi;
 
 import java.util.Random;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 public class Sudo {
     int mGabarito[][] = new int[9][9];	// matriz que contem o gabarito
     int  mResp [][]=new int[9][9];// matriz que contem a resposta do usuario
@@ -43,6 +42,34 @@ public class Sudo {
                 }
             }
         }
+        return false;
+    }
+    
+    boolean verificarRepeticaoQuadrado(int quadrado) {
+        acharLimitesQuadrado(quadrado);
+
+        int vQuadrado[] = new int[9];
+
+        for (int i = 0; i < 9; i++) {
+            vQuadrado[i] = 0;
+        }
+
+        vQuadrado[0] = mResp[liq][ciq];
+        vQuadrado[1] = mResp[liq][ciq + 1];
+        vQuadrado[2] = mResp[liq][ciq + 2];
+        vQuadrado[3] = mResp[liq + 1][ciq];
+        vQuadrado[4] = mResp[liq + 1][ciq + 1];
+        vQuadrado[5] = mResp[liq + 1][ciq + 2];
+        vQuadrado[6] = mResp[liq + 2][ciq];
+        vQuadrado[7] = mResp[liq + 2][ciq + 1];
+        vQuadrado[8] = mResp[liq + 2][ciq + 2];
+
+        for (int i = 0; i < 9; i++) {
+            if (vQuadrado[i] == 0) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -188,7 +215,7 @@ public class Sudo {
                      "\n " + mGabarito[8][0] + " " + mGabarito[8][1] + " " + mGabarito[8][2] + "     " + mGabarito[8][3] + " " + mGabarito[8][4] + " " + mGabarito[8][5] + "     " + mGabarito[8][6] + " " + mGabarito[8][7] + " " + mGabarito[8][8], "a batalha acabou", 0);
     }
     
-        void esconderNumeros(int quantidade) {
+    void esconderNumeros(int quantidade) {
         int l, c;
 
         for (l = 0; l < 9; l++) {
@@ -216,7 +243,62 @@ public class Sudo {
         return mResp;
     }
 
-   
+    String validar(String[][] mSt) {
+        int contBranco = 0, contErros = 0;
+        int mVal[][] = new int[9][9];
+        String resp = "";
+
+        for (int l = 0; l < 9; l++) {
+            for (int c = 0; c < 9; c++) {
+                if (mSt[l][c].compareTo("") == 0) {
+                    contBranco++;
+                    mVal[l][c] = 0;
+                } else {
+                    try {
+                        mVal[l][c] = Integer.parseInt(mSt[l][c]);
+                    } catch (NumberFormatException nfe) {
+                        resp += "\n Existe um caracter ilegal na linha " + (l+1) + " coluna " + (c+1) + ".";
+                    }
+                }
+            }
+        }
+
+        if (contBranco != 0) {
+            resp += "\n Voce deixou " + contBranco + " espacos em branco.";
+        }
+
+        // verifica se ha erros
+        // pode haver mais de uma resposta; e a resposta do usuario 
+        // pode ser diferente da matriz resposta
+        boolean erro = false;
+        for (int l = 0; l < 9 && erro == false; l++) {
+            erro = verificarRepeticaoLinha(l);
+        }
+
+        for (int c = 0; c < 9 && erro == false; c++) {
+            erro = verificarRepeticaoColuna(c);
+        }
+
+        for (int q = 0; q < 9 && erro == false; q++) {
+            erro = verificarRepeticaoQuadrado(q);
+        }
+
+        // encontra o local do erro
+        for (int l = 0; l < 9 && erro == true; l++) {
+            for (int c = 0; c < 9; c++) {
+                if (mVal[l][c] != mGabarito[l][c] && mVal[l][c]!=0) {
+                    contErros++;
+                    resp += "\n Erro na linha " +(l+1) + " coluna " + (c+1) + ".";
+                }
+            }
+        }
+        if (contErros != 0) {
+            resp += "\n Total de erros: " + contErros + ".";
+        }
+        return resp;
+
+
+    }
     
 
 

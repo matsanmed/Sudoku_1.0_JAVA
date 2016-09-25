@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Integer.parseInt;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -17,20 +18,22 @@ import javax.swing.Timer;
  * @author Matheus
  */
 public class FrameInicial1 extends javax.swing.JFrame {
+
+    Sudo sudoku = new Sudo();
     private Timer timer;  
     private int currentSegundo = 0;
     private int currentMinuto = 0;
     private int currentHora = 0;
     private int velocidade = 1000;
-    Sudo sudoku = new Sudo();
-
+    String hr;
+    String min;
+    String seg;
     /**
      * Creates new form FrameInicial1
      */
     public FrameInicial1() {
         initComponents();
         iniciarContagem();
-
     }
 
     @SuppressWarnings("unchecked")
@@ -127,9 +130,9 @@ public class FrameInicial1 extends javax.swing.JFrame {
         c70 = new javax.swing.JTextField();
         c71 = new javax.swing.JTextField();
         c72 = new javax.swing.JTextField();
-        c109 = new javax.swing.JTextField();
-        c110 = new javax.swing.JTextField();
-        c111 = new javax.swing.JTextField();
+        c79 = new javax.swing.JTextField();
+        c80 = new javax.swing.JTextField();
+        c81 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnnovojogo = new javax.swing.JButton();
@@ -137,6 +140,7 @@ public class FrameInicial1 extends javax.swing.JFrame {
         dificuldade = new javax.swing.JComboBox<>();
         lblcrono = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("SUDOKU");
@@ -703,11 +707,11 @@ public class FrameInicial1 extends javax.swing.JFrame {
 
         c72.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        c109.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        c79.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        c110.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        c80.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        c111.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        c81.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         javax.swing.GroupLayout Bloco17Layout = new javax.swing.GroupLayout(Bloco17);
         Bloco17.setLayout(Bloco17Layout);
@@ -729,11 +733,11 @@ public class FrameInicial1 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(c72, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(Bloco17Layout.createSequentialGroup()
-                        .addComponent(c109, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(c79, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(c110, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(c80, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(c111, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(c81, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         Bloco17Layout.setVerticalGroup(
@@ -751,9 +755,9 @@ public class FrameInicial1 extends javax.swing.JFrame {
                     .addComponent(c72, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(Bloco17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(c109, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(c110, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(c111, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(c79, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(c80, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(c81, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -833,6 +837,14 @@ public class FrameInicial1 extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Dificudade:");
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setText("Resposta");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -848,6 +860,7 @@ public class FrameInicial1 extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -883,7 +896,9 @@ public class FrameInicial1 extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(102, 102, 102)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -914,10 +929,17 @@ public class FrameInicial1 extends javax.swing.JFrame {
 
 
     private void btnnovojogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnovojogoActionPerformed
-        int m[][]=new int [9][9];
-        if(dificuldade.getSelectedIndex()==0){m = sudoku.jogar(30);}
-        if(dificuldade.getSelectedIndex()==1){m = sudoku.jogar(40);}
-        if(dificuldade.getSelectedIndex()==2){m = sudoku.jogar(50);}
+        int m[][] = new int[9][9];
+        //dificuldade (Numero de quadrados em branco )
+        if (dificuldade.getSelectedIndex() == 0) {
+            m = sudoku.jogar(20);
+        }
+        if (dificuldade.getSelectedIndex() == 1) {
+            m = sudoku.jogar(40);
+        }
+        if (dificuldade.getSelectedIndex() == 2) {
+            m = sudoku.jogar(50);
+        }
 
         JTextField[] celula = this.mCelulas();
         int i = 0;
@@ -928,23 +950,41 @@ public class FrameInicial1 extends javax.swing.JFrame {
 
             }
     }//GEN-LAST:event_btnnovojogoActionPerformed
-      timer.restart();
-      lblcrono.setText("00:00:00");
-      this.timer.start();
-    }
-    private void btnverificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnverificarActionPerformed
-
-
-    }//GEN-LAST:event_btnverificarActionPerformed
-   
+        stopTime();
+        this.timer.start();
     
+    }
+    
+    private void btnverificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnverificarActionPerformed
+        String m[][] = new String[9][9];
+        JTextField[] celula = this.mCelulas();
+        int i = 0;
+        for (int l = 0; l < 9; l++) {
+            for (int c = 0; c < 9; c++) {
+                m[l][c] = celula[i].getText();
+                i = i + 1;
+            }
+        }
+        String resp = sudoku.validar(m);
+        if (resp.equals("")) {
+              JOptionPane.showMessageDialog(null, "Parabéns, voce ganhou!"+"\n Tempo: "+hr+":"+min+":"+seg , "Fim de Jogo", -1);
+        }else {
+                   JOptionPane.showMessageDialog(null, resp,"Erro", 0);
+                }
+    }//GEN-LAST:event_btnverificarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        sudoku.imprimisud();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private JTextField[] mCelulas() {
         JTextField celulas[] = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16,
             c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32,
             c33, c34, c35, c36, c37, c38, c39, c40, c41, c42, c43, c44, c45, c46, c47, c48, c49,
             c50, c51, c52, c53, c54, c55, c56, c57, c58, c59, c60, c61, c62, c63, c64, c65, c66, c67, c68, c69,
-            c70, c71, c72, c73, c74, c75, c76, c77, c78, c109, c110, c111};
+            c70, c71, c72, c73, c74, c75, c76, c77, c78, c79, c80, c81};
         return celulas;
     }
 
@@ -960,8 +1000,6 @@ public class FrameInicial1 extends javax.swing.JFrame {
 
         }
     }
-
-
 
     /**
      * @param args the command line arguments
@@ -1012,10 +1050,7 @@ public class FrameInicial1 extends javax.swing.JFrame {
     private javax.swing.JButton btnverificar;
     private javax.swing.JTextField c1;
     private javax.swing.JTextField c10;
-    private javax.swing.JTextField c109;
     private javax.swing.JTextField c11;
-    private javax.swing.JTextField c110;
-    private javax.swing.JTextField c111;
     private javax.swing.JTextField c12;
     private javax.swing.JTextField c13;
     private javax.swing.JTextField c14;
@@ -1089,9 +1124,13 @@ public class FrameInicial1 extends javax.swing.JFrame {
     private javax.swing.JTextField c76;
     private javax.swing.JTextField c77;
     private javax.swing.JTextField c78;
+    private javax.swing.JTextField c79;
     private javax.swing.JTextField c8;
+    private javax.swing.JTextField c80;
+    private javax.swing.JTextField c81;
     private javax.swing.JTextField c9;
     private javax.swing.JComboBox<String> dificuldade;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1100,8 +1139,7 @@ public class FrameInicial1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblcrono;
     // End of variables declaration//GEN-END:variables
-
- private void iniciarContagem() {
+        private void iniciarContagem() {
         ActionListener action = new ActionListener() {  
             public void actionPerformed(ActionEvent e) {  
                 currentSegundo++;
@@ -1116,18 +1154,23 @@ public class FrameInicial1 extends javax.swing.JFrame {
                     currentMinuto = 0;
                 }
                 
-                String hr = currentHora <= 9? "0"+currentHora:currentHora+"";
-                String min = currentMinuto <= 9? "0"+currentMinuto:currentMinuto+"";
-                String seg = currentSegundo <= 9? "0"+currentSegundo:currentSegundo+"";
+                hr = currentHora <= 9? "0"+currentHora:currentHora+"";
+                min = currentMinuto <= 9? "0"+currentMinuto:currentMinuto+"";
+                seg = currentSegundo <= 9? "0"+currentSegundo:currentSegundo+"";
                 
                 lblcrono.setText(hr+":"+min+":"+seg);  
             }  
         };  
         this.timer = new Timer(velocidade, action);  
- 
     }
-
-
-
-
+        private void stopTime() {
+        timer.stop();
+        currentHora = 0;
+        currentMinuto = 0;
+        currentSegundo = 0;
+        lblcrono.setText("00:00:00");
+    }
+    
+    
+    
 }
