@@ -47,7 +47,7 @@ public class Sudo {
     }
 
     void acharLimitesQuadrado(int q) {
-        if (q == 1) {
+            if (q == 1) {
             liq = 0;
             ciq = 0;
             lfq = 2;
@@ -100,7 +100,7 @@ public class Sudo {
             ciq = 6;
             lfq = 8;
             cfq = 8;
-        }
+        }   
     }
 
     void zerarQuadrado() {
