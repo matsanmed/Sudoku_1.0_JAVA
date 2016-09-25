@@ -861,34 +861,34 @@ public class FrameInicial1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void novojogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novojogoActionPerformed
-
-        sudoku.alocarNumeros();
+        int m[][] = sudoku.jogar(30);
         JTextField celulas[] = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16,
             c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32,
-            c33, c34, c35, c36, c37, c38, c39,c40, c41, c42, c43, c44, c45, c46, c47, c48, c49,
-            c50, c51, c52, c53, c54, c55, c56, c57, c58, c59,c60, c61, c62, c63, c64, c65, c66, c67, c68, c69,
-            c70, c71, c72, c73, c74, c75, c76, c77, c78, c79,c80,c81};
-            int i=0;
-            for (int l = 0; l < 9; l++) {
-                for (int c = 0; c < 9; c++) {
-                        this.testacelula(celulas[i], sudoku.mGabarito[l][c]); 
-                        i=i+1;
-                }
-            
-            
-
+            c33, c34, c35, c36, c37, c38, c39, c40, c41, c42, c43, c44, c45, c46, c47, c48, c49,
+            c50, c51, c52, c53, c54, c55, c56, c57, c58, c59, c60, c61, c62, c63, c64, c65, c66, c67, c68, c69,
+            c70, c71, c72, c73, c74, c75, c76, c77, c78, c79, c80, c81};
+        int i = 0;
+        for (int l = 0; l < 9; l++) {
+            for (int c = 0; c < 9; c++) {
+                this.testacelula(celulas[i], m[l][c]);
+                i = i + 1;
+            }
     }//GEN-LAST:event_novojogoActionPerformed
     }
-    
 
     private void testacelula(JTextField cel, int num) {
         if (num != 0) {
             cel.setText(Integer.toString(num));
             cel.setEditable(false);
-            cel.setBackground(Color.gray);
+            cel.setBackground(Color.GRAY);
+        }
+        else{
+            cel.setText("");
+            cel.setEditable(true);
+            cel.setBackground(Color.white);
+                    
         }
     }
-
     /**
      * @param args the command line arguments
      */

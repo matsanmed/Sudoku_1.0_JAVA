@@ -3,10 +3,9 @@ package sudoku_ed_mi;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 public class Sudo {
-
     int mGabarito[][] = new int[9][9];	// matriz que contem o gabarito
+    int  mResp [][]=new int[9][9];// matriz que contem a resposta do usuario
     Random nRand = new Random();
     int liq = 0;	// linha inicial do quadrado
     int ciq = 0;	// coluna inicial do quadrado
@@ -14,9 +13,6 @@ public class Sudo {
     int cfq = 0;	// coluna final do quadrado
     int linha = 0;	// linha de trabalho -> insercao de numeros
     int coluna = 0;	// coluna de trabalho -> insercao de numeros
-    
-
-    
     void acharLinhaColunaVazia() {
         linha = Math.abs(nRand.nextInt() % 3);
         coluna = Math.abs(nRand.nextInt() % 3);
@@ -176,12 +172,6 @@ public class Sudo {
                 }
             }
         }
-      
-        //RETIRAR DEPOIS
-        this.imprimisud();
-    
-    
-    
     }
     
     void imprimisud(){
@@ -196,10 +186,38 @@ public class Sudo {
                    "\n\n " + mGabarito[6][0] + " " + mGabarito[6][1] + " " + mGabarito[6][2] + "     " + mGabarito[6][3] + " " + mGabarito[6][4] + " " + mGabarito[6][5] + "     " + mGabarito[6][6] + " " + mGabarito[6][7] + " " + mGabarito[6][8]+
                      "\n " + mGabarito[7][0] + " " + mGabarito[7][1] + " " + mGabarito[7][2] + "     " + mGabarito[7][3] + " " + mGabarito[7][4] + " " + mGabarito[7][5] + "     " + mGabarito[7][6] + " " + mGabarito[7][7] + " " + mGabarito[7][8]+
                      "\n " + mGabarito[8][0] + " " + mGabarito[8][1] + " " + mGabarito[8][2] + "     " + mGabarito[8][3] + " " + mGabarito[8][4] + " " + mGabarito[8][5] + "     " + mGabarito[8][6] + " " + mGabarito[8][7] + " " + mGabarito[8][8], "a batalha acabou", 0);
-              
-
-
-
-
     }
+    
+        void esconderNumeros(int quantidade) {
+        int l, c;
+
+        for (l = 0; l < 9; l++) {
+            for (c = 0; c < 9; c++) {
+                mResp[l][c] = mGabarito[l][c];
+            }
+        }
+
+        for (int q = 0; q < quantidade; q++) {
+            l = Math.abs(nRand.nextInt() % 9);
+            c = Math.abs(nRand.nextInt() % 9);
+            while (mResp[l][c] == 0) {
+                l = Math.abs(nRand.nextInt() % 9);
+                c = Math.abs(nRand.nextInt() % 9);
+            }
+            mResp[l][c] = 0;
+        }
+    }
+
+    int [][] jogar(int quantidadeBrancos) {
+        zerarDados();
+        alocarNumeros();
+        esconderNumeros(quantidadeBrancos);
+
+        return mResp;
+    }
+
+   
+    
+
+
 }
