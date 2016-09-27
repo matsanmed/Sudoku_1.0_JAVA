@@ -3,29 +3,30 @@ package sudoku_ed_mi;
 import java.util.Random;
 import javax.swing.JOptionPane;
 public class Sudo {
-    int mGabarito[][] = new int[9][9];	// matriz que contem o gabarito
-    int  mResp [][]=new int[9][9];// matriz que contem a resposta do usuario
-    Random nRand = new Random();
-    int liq = 0;	// linha inicial do quadrado
-    int ciq = 0;	// coluna inicial do quadrado
-    int lfq = 0;	// linha final do quadrado
-    int cfq = 0;	// coluna final do quadrado
-    int linha = 0;	// linha de trabalho -> insercao de numeros
-    int coluna = 0;	// coluna de trabalho -> insercao de numeros
-    void acharLinhaColunaVazia() {
-        linha = Math.abs(nRand.nextInt() % 3);
-        coluna = Math.abs(nRand.nextInt() % 3);
-        while (mGabarito[liq + linha][ciq + coluna] != 0) {
-            linha = Math.abs(nRand.nextInt() % 3);
-            coluna = Math.abs(nRand.nextInt() % 3);
+    int gabaMatriz[][] = new int[9][9];	// matriz que contem o gabarito
+    int respMatriz [][]=new int[9][9];// matriz que contem a resposta do usuario
+    Random varRand = new Random();
+    private int plq = 0;	// primeira linha do quadrado
+    private int pcq = 0;	// primeira coluna do quadrado
+    private int ulq = 0;	// ultima linha do quadrado
+    private int ucq = 0;	// ultima coluna do quadrado
+    private int linha = 0;	// linha de trabalho -> insercao de numeros
+    private int coluna = 0;	// coluna de trabalho -> insercao de numeros
+    
+    void pesqEspVazio() {       // pesquisa espaços vazios
+        setLinha(Math.abs(varRand.nextInt() % 3));
+        setColuna(Math.abs(varRand.nextInt() % 3));
+        while (gabaMatriz[getPlq() + getLinha()][getPcq() + getColuna()] != 0) {
+            setLinha(Math.abs(varRand.nextInt() % 3));
+            setColuna(Math.abs(varRand.nextInt() % 3));
         }
     }
 
-    boolean verificarRepeticaoLinha(int linha) {
+    boolean pesqLinhaRep(int linha) {
         for (int i = 0; i < 8; i++) {
             for (int j = i + 1; j < 9; j++) {
-                if ((mGabarito[linha][i] != 0)
-                        && (mGabarito[linha][i] == mGabarito[linha][j])) {
+                if ((gabaMatriz[linha][i] != 0)
+                        && (gabaMatriz[linha][i] == gabaMatriz[linha][j])) {
                     return true;
                 }
             }
@@ -33,11 +34,11 @@ public class Sudo {
         return false;
     }
     
-    boolean verificarRepeticaoColuna(int coluna) {
+    boolean pesqColunaRep(int coluna) {
         for (int i = 0; i < 8; i++) {
             for (int j = i + 1; j < 9; j++) {
-                if ((mGabarito[i][coluna] != 0)
-                        && (mGabarito[i][coluna] == mGabarito[j][coluna])) {
+                if ((gabaMatriz[i][coluna] != 0)
+                        && (gabaMatriz[i][coluna] == gabaMatriz[j][coluna])) {
                     return true;
                 }
             }
@@ -45,27 +46,27 @@ public class Sudo {
         return false;
     }
     
-    boolean verificarRepeticaoQuadrado(int quadrado) {
-        acharLimitesQuadrado(quadrado);
+    boolean pesqQuadRep(int quadrado) {     // pesquisa os quadrados repetidos
+        pesqLimQuad(quadrado);
 
-        int vQuadrado[] = new int[9];
+        int nQuadrado[] = new int[9];
 
         for (int i = 0; i < 9; i++) {
-            vQuadrado[i] = 0;
+            nQuadrado[i] = 0;
         }
 
-        vQuadrado[0] = mResp[liq][ciq];
-        vQuadrado[1] = mResp[liq][ciq + 1];
-        vQuadrado[2] = mResp[liq][ciq + 2];
-        vQuadrado[3] = mResp[liq + 1][ciq];
-        vQuadrado[4] = mResp[liq + 1][ciq + 1];
-        vQuadrado[5] = mResp[liq + 1][ciq + 2];
-        vQuadrado[6] = mResp[liq + 2][ciq];
-        vQuadrado[7] = mResp[liq + 2][ciq + 1];
-        vQuadrado[8] = mResp[liq + 2][ciq + 2];
+        nQuadrado[0] = respMatriz[getPlq()][getPcq()];
+        nQuadrado[1] = respMatriz[getPlq()][getPcq() + 1];
+        nQuadrado[2] = respMatriz[getPlq()][getPcq() + 2];
+        nQuadrado[3] = respMatriz[getPlq() + 1][getPcq()];
+        nQuadrado[4] = respMatriz[getPlq() + 1][getPcq() + 1];
+        nQuadrado[5] = respMatriz[getPlq() + 1][getPcq() + 2];
+        nQuadrado[6] = respMatriz[getPlq() + 2][getPcq()];
+        nQuadrado[7] = respMatriz[getPlq() + 2][getPcq() + 1];
+        nQuadrado[8] = respMatriz[getPlq() + 2][getPcq() + 2];
 
         for (int i = 0; i < 9; i++) {
-            if (vQuadrado[i] == 0) {
+            if (nQuadrado[i] == 0) {
                 return true;
             }
         }
@@ -73,126 +74,126 @@ public class Sudo {
         return false;
     }
 
-    void acharLimitesQuadrado(int q) {
+    void pesqLimQuad(int q) {       // pesquisa os limites do quadrado
             if (q == 1) {
-            liq = 0;
-            ciq = 0;
-            lfq = 2;
-            cfq = 2;
+            setPlq(0);
+            setPcq(0);
+            setUlq(2);
+            setUcq(2);
         }
         if (q == 2) {
-            liq = 0;
-            ciq = 3;
-            lfq = 2;
-            cfq = 5;
+            setPlq(0);
+            setPcq(3);
+            setUlq(2);
+            setUcq(5);
         }
         if (q == 3) {
-            liq = 0;
-            ciq = 6;
-            lfq = 2;
-            cfq = 8;
+            setPlq(0);
+            setPcq(6);
+            setUlq(2);
+            setUcq(8);
         }
         if (q == 4) {
-            liq = 3;
-            ciq = 0;
-            lfq = 5;
-            cfq = 2;
+            setPlq(3);
+            setPcq(0);
+            setUlq(5);
+            setUcq(2);
         }
         if (q == 5) {
-            liq = 3;
-            ciq = 3;
-            lfq = 5;
-            cfq = 5;
+            setPlq(3);
+            setPcq(3);
+            setUlq(5);
+            setUcq(5);
         }
         if (q == 6) {
-            liq = 3;
-            ciq = 6;
-            lfq = 5;
-            cfq = 8;
+            setPlq(3);
+            setPcq(6);
+            setUlq(5);
+            setUcq(8);
         }
         if (q == 7) {
-            liq = 6;
-            ciq = 0;
-            lfq = 8;
-            cfq = 2;
+            setPlq(6);
+            setPcq(0);
+            setUlq(8);
+            setUcq(2);
         }
         if (q == 8) {
-            liq = 6;
-            ciq = 3;
-            lfq = 8;
-            cfq = 5;
+            setPlq(6);
+            setPcq(3);
+            setUlq(8);
+            setUcq(5);
         }
         if (q == 9) {
-            liq = 6;
-            ciq = 6;
-            lfq = 8;
-            cfq = 8;
+            setPlq(6);
+            setPcq(6);
+            setUlq(8);
+            setUcq(8);
         }   
     }
 
-    void zerarQuadrado() {
+    void limpaQuad() {
        
-        for (int l = liq; l <= lfq; l++) {
-            for (int c = ciq; c <= cfq; c++) {
-                mGabarito[l][c] = 0;
+        for (int l = getPlq(); l <= getUlq(); l++) {
+            for (int c = getPcq(); c <= getUcq(); c++) {
+                gabaMatriz[l][c] = 0;
             }
         }
 }
      
-    void zerarDados() {
+    void limpaDados() {
         for (int l = 0; l < 9; l++) {
             for (int c = 0; c < 9; c++) {
-                mGabarito[l][c] = 0;
+                gabaMatriz[l][c] = 0;
             }
         }
-        liq = 0;	// linha inicial do quadrado
-        ciq = 0;	// coluna inicial do quadrado
-        lfq = 0;	// linha final do quadrado
-        cfq = 0;	// coluna final do quadrado
-        linha = 0;	// linha de trabalho -> insercao de numeros
-        coluna = 0;	// coluna de trabalho -> insercao de numeros
+        setPlq(0);	// linha inicial do quadrado
+        setPcq(0);	// coluna inicial do quadrado
+        setUlq(0);	// linha final do quadrado
+        setUcq(0);	// coluna final do quadrado
+        setLinha(0);	// linha de trabalho -> insercao de numeros
+        setColuna(0);	// coluna de trabalho -> insercao de numeros
     }
  
-    void alocarNumeros() {
+    void salvaNumeros() {
         int quadrado;
         int tentativas;
         int voltar = 0;
-        int ultimoQuadradoRepetido = 0;
+        int ultQuadRep = 0;
         boolean vrl, vrc;
-        zerarDados();
+        limpaDados();
         for (quadrado = 1; quadrado < 10; quadrado++) {
-            acharLimitesQuadrado(quadrado);
+            pesqLimQuad(quadrado);
             for (int n = 1; n < 10; n++) {
-                acharLinhaColunaVazia();
-                mGabarito[liq + linha][ciq + coluna] = n;
-                vrl = verificarRepeticaoLinha(liq + linha);
-                vrc = verificarRepeticaoColuna(ciq + coluna);
+                pesqEspVazio();
+                gabaMatriz[getPlq() + getLinha()][getPcq() + getColuna()] = n;
+                vrl = pesqLinhaRep(getPlq() + getLinha());
+                vrc =  pesqColunaRep(getPcq() + getColuna());
                 tentativas = 0;
                 while (vrl || vrc) {
                     if (tentativas == 100) {
-                        if (quadrado == ultimoQuadradoRepetido) {
+                        if (quadrado == ultQuadRep) {
                             if (voltar < quadrado) {
                                 voltar++;
                             }
                             break;
                         } else {
                             voltar = 1;
-                            ultimoQuadradoRepetido = quadrado;
+                            ultQuadRep = quadrado;
                             break;
                         }
                     }
                     tentativas++;
                     
-                    mGabarito[liq + linha][ciq + coluna] = 0;
-                    acharLinhaColunaVazia();
-                    mGabarito[liq + linha][ciq + coluna] = n;
-                    vrl = verificarRepeticaoLinha(liq + linha);
-                    vrc = verificarRepeticaoColuna(ciq + coluna);
+                    gabaMatriz[getPlq() + getLinha()][getPcq() + getColuna()] = 0;
+                    pesqEspVazio();
+                    gabaMatriz[getPlq() + getLinha()][getPcq() + getColuna()] = n;
+                    vrl = pesqLinhaRep(getPlq() + getLinha());
+                    vrc =  pesqColunaRep(getPcq() + getColuna());
                 }
                 if (tentativas == 100) {
                     for (int q = quadrado; q > quadrado - voltar; q--) {
-                        acharLimitesQuadrado(q);
-                        zerarQuadrado();
+                        pesqLimQuad(q);
+                        limpaQuad();
                     }
                     quadrado -= voltar;
                     break;
@@ -204,15 +205,15 @@ public class Sudo {
     void imprimisud(){
         
         JOptionPane.showConfirmDialog
-                (null, " " + mGabarito[0][0] + " " + mGabarito[0][1] + " " + mGabarito[0][2] + "     " + mGabarito[0][3] + " " + mGabarito[0][4] + " " + mGabarito[0][5] + "     " + mGabarito[0][6] + " " + mGabarito[0][7] + " " + mGabarito[0][8]+
-                     "\n " + mGabarito[1][0] + " " + mGabarito[1][1] + " " + mGabarito[1][2] + "     " + mGabarito[1][3] + " " + mGabarito[1][4] + " " + mGabarito[1][5] + "     " + mGabarito[1][6] + " " + mGabarito[1][7] + " " + mGabarito[1][8]+
-                     "\n " + mGabarito[2][0] + " " + mGabarito[2][1] + " " + mGabarito[2][2] + "     " + mGabarito[2][3] + " " + mGabarito[2][4] + " " + mGabarito[2][5] + "     " + mGabarito[2][6] + " " + mGabarito[2][7] + " " + mGabarito[2][8]+
-                   "\n\n " + mGabarito[3][0] + " " + mGabarito[3][1] + " " + mGabarito[3][2] + "     " + mGabarito[3][3] + " " + mGabarito[3][4] + " " + mGabarito[3][5] + "     " + mGabarito[3][6] + " " + mGabarito[3][7] + " " + mGabarito[3][8]+
-                     "\n " + mGabarito[4][0] + " " + mGabarito[4][1] + " " + mGabarito[4][2] + "     " + mGabarito[4][3] + " " + mGabarito[4][4] + " " + mGabarito[4][5] + "     " + mGabarito[4][6] + " " + mGabarito[4][7] + " " + mGabarito[4][8]+
-                     "\n " + mGabarito[5][0] + " " + mGabarito[5][1] + " " + mGabarito[5][2] + "     " + mGabarito[5][3] + " " + mGabarito[5][4] + " " + mGabarito[5][5] + "     " + mGabarito[5][6] + " " + mGabarito[5][7] + " " + mGabarito[5][8]+
-                   "\n\n " + mGabarito[6][0] + " " + mGabarito[6][1] + " " + mGabarito[6][2] + "     " + mGabarito[6][3] + " " + mGabarito[6][4] + " " + mGabarito[6][5] + "     " + mGabarito[6][6] + " " + mGabarito[6][7] + " " + mGabarito[6][8]+
-                     "\n " + mGabarito[7][0] + " " + mGabarito[7][1] + " " + mGabarito[7][2] + "     " + mGabarito[7][3] + " " + mGabarito[7][4] + " " + mGabarito[7][5] + "     " + mGabarito[7][6] + " " + mGabarito[7][7] + " " + mGabarito[7][8]+
-                     "\n " + mGabarito[8][0] + " " + mGabarito[8][1] + " " + mGabarito[8][2] + "     " + mGabarito[8][3] + " " + mGabarito[8][4] + " " + mGabarito[8][5] + "     " + mGabarito[8][6] + " " + mGabarito[8][7] + " " + mGabarito[8][8], "a batalha acabou", 0);
+                (null, " " + gabaMatriz[0][0] + " " + gabaMatriz[0][1] + " " + gabaMatriz[0][2] + "     " + gabaMatriz[0][3] + " " + gabaMatriz[0][4] + " " + gabaMatriz[0][5] + "     " + gabaMatriz[0][6] + " " + gabaMatriz[0][7] + " " + gabaMatriz[0][8]+
+                     "\n " + gabaMatriz[1][0] + " " + gabaMatriz[1][1] + " " + gabaMatriz[1][2] + "     " + gabaMatriz[1][3] + " " + gabaMatriz[1][4] + " " + gabaMatriz[1][5] + "     " + gabaMatriz[1][6] + " " + gabaMatriz[1][7] + " " + gabaMatriz[1][8]+
+                     "\n " + gabaMatriz[2][0] + " " + gabaMatriz[2][1] + " " + gabaMatriz[2][2] + "     " + gabaMatriz[2][3] + " " + gabaMatriz[2][4] + " " + gabaMatriz[2][5] + "     " + gabaMatriz[2][6] + " " + gabaMatriz[2][7] + " " + gabaMatriz[2][8]+
+                   "\n\n " + gabaMatriz[3][0] + " " + gabaMatriz[3][1] + " " + gabaMatriz[3][2] + "     " + gabaMatriz[3][3] + " " + gabaMatriz[3][4] + " " + gabaMatriz[3][5] + "     " + gabaMatriz[3][6] + " " + gabaMatriz[3][7] + " " + gabaMatriz[3][8]+
+                     "\n " + gabaMatriz[4][0] + " " + gabaMatriz[4][1] + " " + gabaMatriz[4][2] + "     " + gabaMatriz[4][3] + " " + gabaMatriz[4][4] + " " + gabaMatriz[4][5] + "     " + gabaMatriz[4][6] + " " + gabaMatriz[4][7] + " " + gabaMatriz[4][8]+
+                     "\n " + gabaMatriz[5][0] + " " + gabaMatriz[5][1] + " " + gabaMatriz[5][2] + "     " + gabaMatriz[5][3] + " " + gabaMatriz[5][4] + " " + gabaMatriz[5][5] + "     " + gabaMatriz[5][6] + " " + gabaMatriz[5][7] + " " + gabaMatriz[5][8]+
+                   "\n\n " + gabaMatriz[6][0] + " " + gabaMatriz[6][1] + " " + gabaMatriz[6][2] + "     " + gabaMatriz[6][3] + " " + gabaMatriz[6][4] + " " + gabaMatriz[6][5] + "     " + gabaMatriz[6][6] + " " + gabaMatriz[6][7] + " " + gabaMatriz[6][8]+
+                     "\n " + gabaMatriz[7][0] + " " + gabaMatriz[7][1] + " " + gabaMatriz[7][2] + "     " + gabaMatriz[7][3] + " " + gabaMatriz[7][4] + " " + gabaMatriz[7][5] + "     " + gabaMatriz[7][6] + " " + gabaMatriz[7][7] + " " + gabaMatriz[7][8]+
+                     "\n " + gabaMatriz[8][0] + " " + gabaMatriz[8][1] + " " + gabaMatriz[8][2] + "     " + gabaMatriz[8][3] + " " + gabaMatriz[8][4] + " " + gabaMatriz[8][5] + "     " + gabaMatriz[8][6] + " " + gabaMatriz[8][7] + " " + gabaMatriz[8][8], "a batalha acabou", -1);
     }
     
     void esconderNumeros(int quantidade) {
@@ -220,27 +221,27 @@ public class Sudo {
 
         for (l = 0; l < 9; l++) {
             for (c = 0; c < 9; c++) {
-                mResp[l][c] = mGabarito[l][c];
+                respMatriz[l][c] = gabaMatriz[l][c];
             }
         }
 
         for (int q = 0; q < quantidade; q++) {
-            l = Math.abs(nRand.nextInt() % 9);
-            c = Math.abs(nRand.nextInt() % 9);
-            while (mResp[l][c] == 0) {
-                l = Math.abs(nRand.nextInt() % 9);
-                c = Math.abs(nRand.nextInt() % 9);
+            l = Math.abs(varRand.nextInt() % 9);
+            c = Math.abs(varRand.nextInt() % 9);
+            while (respMatriz[l][c] == 0) {
+                l = Math.abs(varRand.nextInt() % 9);
+                c = Math.abs(varRand.nextInt() % 9);
             }
-            mResp[l][c] = 0;
+            respMatriz[l][c] = 0;
         }
     }
 
     int [][] jogar(int quantidadeBrancos) {
-        zerarDados();
-        alocarNumeros();
+        limpaDados();
+        salvaNumeros();
         esconderNumeros(quantidadeBrancos);
 
-        return mResp;
+        return respMatriz;
     }
 
     String validar(String[][] mSt) {
@@ -272,21 +273,21 @@ public class Sudo {
         // pode ser diferente da matriz resposta
         boolean erro = false;
         for (int l = 0; l < 9 && erro == false; l++) {
-            erro = verificarRepeticaoLinha(l);
+            erro = pesqLinhaRep(l);
         }
 
         for (int c = 0; c < 9 && erro == false; c++) {
-            erro = verificarRepeticaoColuna(c);
+            erro =  pesqColunaRep(c);
         }
 
         for (int q = 0; q < 9 && erro == false; q++) {
-            erro = verificarRepeticaoQuadrado(q);
+            erro = pesqQuadRep(q);
         }
 
         // encontra o local do erro
         for (int l = 0; l < 9 && erro == true; l++) {
             for (int c = 0; c < 9; c++) {
-                if (mVal[l][c] != mGabarito[l][c] && mVal[l][c]!=0) {
+                if (mVal[l][c] != gabaMatriz[l][c] && mVal[l][c]!=0) {
                     contErros++;
                     resp += "\n Erro na linha " +(l+1) + " coluna " + (c+1) + ".";
                 }
@@ -299,7 +300,88 @@ public class Sudo {
 
 
     }
-    
 
+    /**
+     * @return the plq
+     */
+    public int getPlq() {
+        return plq;
+    }
 
+    /**
+     * @param plq the plq to set
+     */
+    public void setPlq(int plq) {
+        this.plq = plq;
+    }
+
+    /**
+     * @return the pcq
+     */
+    public int getPcq() {
+        return pcq;
+    }
+
+    /**
+     * @param pcq the pcq to set
+     */
+    public void setPcq(int pcq) {
+        this.pcq = pcq;
+    }
+
+    /**
+     * @return the ulq
+     */
+    public int getUlq() {
+        return ulq;
+    }
+
+    /**
+     * @param ulq the ulq to set
+     */
+    public void setUlq(int ulq) {
+        this.ulq = ulq;
+    }
+
+    /**
+     * @return the ucq
+     */
+    public int getUcq() {
+        return ucq;
+    }
+
+    /**
+     * @param ucq the ucq to set
+     */
+    public void setUcq(int ucq) {
+        this.ucq = ucq;
+    }
+
+    /**
+     * @return the linha
+     */
+    public int getLinha() {
+        return linha;
+    }
+
+    /**
+     * @param linha the linha to set
+     */
+    public void setLinha(int linha) {
+        this.linha = linha;
+    }
+
+    /**
+     * @return the coluna
+     */
+    public int getColuna() {
+        return coluna;
+    }
+
+    /**
+     * @param coluna the coluna to set
+     */
+    public void setColuna(int coluna) {
+        this.coluna = coluna;
+    }
 }
