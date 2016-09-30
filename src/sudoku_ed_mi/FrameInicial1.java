@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sudoku_ed_mi;
 
 import java.awt.Color;
@@ -915,9 +910,9 @@ public class FrameInicial1 extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnnovojogo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnverificar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dificuldade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -953,7 +948,7 @@ public class FrameInicial1 extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-
+    //botao novo jogo
     private void btnnovojogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnovojogoActionPerformed
         int m[][] = new int[9][9];
         //dificuldade (Numero de quadrados em branco )
@@ -966,7 +961,7 @@ public class FrameInicial1 extends javax.swing.JFrame {
         if (dificuldade.getSelectedIndex() == 2) {
             m = sudoku.jogar(50);
         }
-
+        //envia o numero e a celula correspondente para o metodo testacelula que exibe a matriz para o usuario
         JTextField[] celula = this.mCelulas();
         int i = 0;
         for (int l = 0; l < 9; l++) {
@@ -976,14 +971,17 @@ public class FrameInicial1 extends javax.swing.JFrame {
 
             }
     }//GEN-LAST:event_btnnovojogoActionPerformed
+        //reinicia o cronometro
         stopTime();
+        //inicia o cronometro
         this.timer.start();
     
     }
-    
+    //botao de verificação
     private void btnverificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnverificarActionPerformed
         String m[][] = new String[9][9];
         JTextField[] celula = this.mCelulas();
+        //coloca todos os numeros que o usuario de entrada em uma matriz 
         int i = 0;
         for (int l = 0; l < 9; l++) {
             for (int c = 0; c < 9; c++) {
@@ -999,17 +997,17 @@ public class FrameInicial1 extends javax.swing.JFrame {
                    JOptionPane.showMessageDialog(null, resp,"Erro", 0);
                 }
     }//GEN-LAST:event_btnverificarActionPerformed
-
+    //botao de resposta
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         sudoku.imprimisud();
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void dificuldadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dificuldadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dificuldadeActionPerformed
-
+    //Array com todos os 81 JTextField 
     private JTextField[] mCelulas() {
         JTextField celulas[] = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16,
             c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32,
@@ -1018,7 +1016,7 @@ public class FrameInicial1 extends javax.swing.JFrame {
             c70, c71, c72, c73, c74, c75, c76, c77, c78, c79, c80, c81};
         return celulas;
     }
-
+    //edita a cor dos JTextField na matriz e coloca os numeros na atriz do usuario
     private void testacelula(JTextField cel, int num) {
         if (num != 0) {
             cel.setText(Integer.toString(num));

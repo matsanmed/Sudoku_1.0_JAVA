@@ -14,8 +14,9 @@ public class Sudo {
     private int coluna = 0;	// coluna de trabalho -> insercao de numeros
     
     void pesqEspVazio() {       // pesquisa espaços vazios
-        setLinha(Math.abs(varRand.nextInt() % 3));
-        setColuna(Math.abs(varRand.nextInt() % 3));
+        setLinha(Math.abs(varRand.nextInt() % 3));// numero aleatorio de 0 a 2 para as linhas do quadrado 3x3
+        setColuna(Math.abs(varRand.nextInt() % 3));//numero aleatorio de 0 a 2 para as coluna do quadrado 3x3
+        //verifia se ja existe um numero na linha e coluna sorteada e procura espaço vazio
         while (gabaMatriz[getPlq() + getLinha()][getPcq() + getColuna()] != 0) {
             setLinha(Math.abs(varRand.nextInt() % 3));
             setColuna(Math.abs(varRand.nextInt() % 3));
@@ -48,9 +49,7 @@ public class Sudo {
     
     boolean pesqQuadRep(int quadrado) {     // pesquisa os quadrados repetidos
         pesqLimQuad(quadrado);
-
         int nQuadrado[] = new int[9];
-
         for (int i = 0; i < 9; i++) {
             nQuadrado[i] = 0;
         }
@@ -170,7 +169,7 @@ public class Sudo {
                 vrc =  pesqColunaRep(getPcq() + getColuna());
                 tentativas = 0;
                 while (vrl || vrc) {
-                    if (tentativas == 100) {
+                   if (tentativas == 50) {
                         if (quadrado == ultQuadRep) {
                             if (voltar < quadrado) {
                                 voltar++;
@@ -183,14 +182,14 @@ public class Sudo {
                         }
                     }
                     tentativas++;
-                    
                     gabaMatriz[getPlq() + getLinha()][getPcq() + getColuna()] = 0;
                     pesqEspVazio();
                     gabaMatriz[getPlq() + getLinha()][getPcq() + getColuna()] = n;
                     vrl = pesqLinhaRep(getPlq() + getLinha());
                     vrc =  pesqColunaRep(getPcq() + getColuna());
                 }
-                if (tentativas == 100) {
+                //limpa quadrado que está com erro
+                if (tentativas == 50) {
                     for (int q = quadrado; q > quadrado - voltar; q--) {
                         pesqLimQuad(q);
                         limpaQuad();
@@ -213,7 +212,7 @@ public class Sudo {
                      "\n " + gabaMatriz[5][0] + " " + gabaMatriz[5][1] + " " + gabaMatriz[5][2] + "     " + gabaMatriz[5][3] + " " + gabaMatriz[5][4] + " " + gabaMatriz[5][5] + "     " + gabaMatriz[5][6] + " " + gabaMatriz[5][7] + " " + gabaMatriz[5][8]+
                    "\n\n " + gabaMatriz[6][0] + " " + gabaMatriz[6][1] + " " + gabaMatriz[6][2] + "     " + gabaMatriz[6][3] + " " + gabaMatriz[6][4] + " " + gabaMatriz[6][5] + "     " + gabaMatriz[6][6] + " " + gabaMatriz[6][7] + " " + gabaMatriz[6][8]+
                      "\n " + gabaMatriz[7][0] + " " + gabaMatriz[7][1] + " " + gabaMatriz[7][2] + "     " + gabaMatriz[7][3] + " " + gabaMatriz[7][4] + " " + gabaMatriz[7][5] + "     " + gabaMatriz[7][6] + " " + gabaMatriz[7][7] + " " + gabaMatriz[7][8]+
-                     "\n " + gabaMatriz[8][0] + " " + gabaMatriz[8][1] + " " + gabaMatriz[8][2] + "     " + gabaMatriz[8][3] + " " + gabaMatriz[8][4] + " " + gabaMatriz[8][5] + "     " + gabaMatriz[8][6] + " " + gabaMatriz[8][7] + " " + gabaMatriz[8][8], "a batalha acabou", -1);
+                     "\n " + gabaMatriz[8][0] + " " + gabaMatriz[8][1] + " " + gabaMatriz[8][2] + "     " + gabaMatriz[8][3] + " " + gabaMatriz[8][4] + " " + gabaMatriz[8][5] + "     " + gabaMatriz[8][6] + " " + gabaMatriz[8][7] + " " + gabaMatriz[8][8], "Resposta", -1);
     }
     
     void esconderNumeros(int quantidade) {
@@ -246,14 +245,14 @@ public class Sudo {
 
     String validar(String[][] mSt) {
         int contBranco = 0, contErros = 0;
-        int mVal[][] = new int[9][9];
+        int mVal[][] = new int[9][9];//matriz com as respostas do usuario
         String resp = "";
 
         for (int l = 0; l < 9; l++) {
             for (int c = 0; c < 9; c++) {
                 if (mSt[l][c].compareTo("") == 0) {
                     contBranco++;
-                    mVal[l][c] = 0;
+                    mVal[l][c] = 0;//matriz com as respostas do usuario
                 } else {
                     try {
                         mVal[l][c] = Integer.parseInt(mSt[l][c]);
